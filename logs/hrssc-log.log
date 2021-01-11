@@ -1,0 +1,7 @@
+2021-01-11 10:11:52  [ WebSocketConnectReadThread-11:0 ] - [ INFO ]  ------ MyWebSocket onOpen ------
+2021-01-11 10:13:16  [ WebSocketConnectReadThread-13:0 ] - [ INFO ]  ------ MyWebSocket onOpen ------
+2021-01-11 12:00:28  [ WebSocketConnectReadThread-11:0 ] - [ INFO ]  ------ MyWebSocket onOpen ------
+2021-01-11 12:01:10  [ WebSocketConnectReadThread-11:42250 ] - [ INFO ]  I'm 程文, 张慧萍 send msg: 我是张慧萍发的第1个说说2021-01-11 12:01:05, msgtime: 2021-01-11 12:01:05, log time: 2021-01-11 12:01:10:364
+2021-01-11 12:01:10  [ WebSocketConnectReadThread-11:42738 ] - [ INFO ]  I'm 程文, 邹文敏 send msg: 我是邹文敏发的第1个说说2021-01-11 12:01:06, msgtime: 2021-01-11 12:01:06, log time: 2021-01-11 12:01:10:851
+2021-01-11 12:01:45  [ WebSocketConnectReadThread-11:77539 ] - [ INFO ]  I'm 程文, 张慧萍 send msg: 我是张慧萍发的第1个说说2021-01-11 12:01:40, msgtime: 2021-01-11 12:01:40, log time: 2021-01-11 12:01:45:653
+2021-01-11 12:01:46  [ WebSocketConnectReadThread-11:78022 ] - [ INFO ]  I'm 程文, 邹文敏 send msg: 我是邹文敏发的第1个说说2021-01-11 12:01:41, msgtime: 2021-01-11 12:01:41, log time: 2021-01-11 12:01:46:136

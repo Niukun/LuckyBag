@@ -1,0 +1,3 @@
+2021-01-08 10:49:49  [ WebSocketConnectReadThread-11:0 ] - [ INFO ]  ------ MyWebSocket onOpen ------
+2021-01-08 10:50:08  [ WebSocketConnectReadThread-11:19464 ] - [ INFO ]  I'm aaa, 牛坤 send msg: 11223, msgtime: 2021-01-08 10:50:08, log time: 2021-01-08 10:50:08:737
+2021-01-08 18:25:40  [ WebSocketConnectReadThread-11:0 ] - [ INFO ]  ------ MyWebSocket onOpen ------
