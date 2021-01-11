@@ -6,12 +6,16 @@ import com.lgc.ServiceFactorys;
 import com.lgc.StartUpClientModel;
 import com.luckybag.entity.ILuckyBagService8008Service;
 import com.luckybag.entity.MsgInfoDto;
+import com.luckybag.fileserver.FileTest;
 import com.luckybag.multiclient.websocket.MyWebSocketClient;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +27,10 @@ public class ControlPanel {
     private JFrame mainFrame;
     private JLabel headerLabel;
     private JTextArea textArea;
-    JScrollPane jScrollPane;
+    JScrollPane msgPane;
+    private JTextArea rosterArea;
+    JScrollPane rosterPane;
+
     private JPanel controlPanel;
     private JTextField textField;
     private MyWebSocketClient myClient = null;
@@ -32,6 +39,8 @@ public class ControlPanel {
     StartUpClientModel customObject;
     ILuckyBagService8008Service iLuckyBagService8008Service;
     StringBuilder sb = new StringBuilder();
+    StringBuilder roster = new StringBuilder();
+    private static Logger logger = Logger.getLogger(FileTest.class);
 
     public JTextArea getTextArea() {
         return textArea;
@@ -68,35 +77,48 @@ public class ControlPanel {
 
     private void prepareGUI(String name) {
         mainFrame = new JFrame("Lucky Bag Chat");
-        mainFrame.setSize(380, 400);
+        mainFrame.setSize(400, 500);
         mainFrame.setLayout(new BorderLayout());
         headerLabel = new JLabel(name, JLabel.CENTER);
         textArea = new JTextArea();
         textArea.setLineWrap(true);
 
-        textArea.setSize(350, 100);
-        jScrollPane =new JScrollPane(textArea);
-        jScrollPane.setVerticalScrollBarPolicy(
+        textArea.setSize(250, 100);
+        msgPane =new JScrollPane(textArea);
+        msgPane.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        rosterArea = new JTextArea();
+        rosterArea.setLineWrap(true);
+        rosterArea.setSize(120,100);
+        rosterPane = new JScrollPane(rosterArea);
+//        rosterPane.setVerticalScrollBarPolicy(
+//                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
         mainFrame.add(headerLabel, BorderLayout.NORTH);
-        mainFrame.add(jScrollPane, BorderLayout.CENTER);
+        mainFrame.add(msgPane, BorderLayout.CENTER);
+        mainFrame.add(rosterPane,BorderLayout.WEST);
         mainFrame.add(controlPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
     }
 
     public void showEventDemo() {
+        JButton listButton = new JButton("Users");
         JButton sendButton = new JButton("Send");
-        JButton clearButton = new JButton("Clear");
+        JButton clearButton = new JButton("Clear All");
         textField = new JTextField(15);
-        sendButton.addActionListener(new ButtonClickListener());
-        clearButton.addActionListener(new ButtonClearListener());
+
+
+        listButton.addActionListener(new UserListener());
+        sendButton.addActionListener(new SendListener());
+        clearButton.addActionListener(new ClearListener());
         textField.addActionListener(new TextFieldListener());
 
-        controlPanel.add(sendButton);
+        controlPanel.add(listButton);
+//        controlPanel.add(sendButton);
         controlPanel.add(clearButton);
         controlPanel.add(textField);
         mainFrame.setLocation(left, top);
@@ -111,7 +133,21 @@ public class ControlPanel {
     }
 
 
-    private class ButtonClickListener implements ActionListener {
+    private class UserListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            getUsers();
+
+            rosterArea.setText(roster.toString());
+
+
+            roster.delete(0,roster.length());
+
+
+        }
+    }
+
+    private class SendListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
@@ -132,13 +168,11 @@ public class ControlPanel {
     }
 
 
-    private class ButtonClearListener implements ActionListener {
+    private class ClearListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-//            sb.delete(0,sb.length());
-//            textArea.setText(sb.toString());
-            getUsers();
-
+            sb.delete(0,sb.length());
+            textArea.setText(sb.toString());
         }
     }
 
@@ -198,8 +232,17 @@ public class ControlPanel {
             e.printStackTrace();
         }
 
-
         List<LoginResponseDto> loginResponseDtos = customObject.GetLoginedDesks("8008");
+        roster.append("Online user: ").append(loginResponseDtos.size()).append("\n");
+        logger.info("Online user:" + loginResponseDtos.size());
+        for (LoginResponseDto user: loginResponseDtos) {
+            roster.append(user.COUSTOMID).append(" \n");
+            try {
+                logger.info(user.COUSTOMID + ", " + new String(user.COUSTOMNAME.getBytes("GBK"),"UTF-8") + ", login time: " + user.LOGINTIME);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
         System.out.println("当前登录人数：" + loginResponseDtos.size());
 
     }
