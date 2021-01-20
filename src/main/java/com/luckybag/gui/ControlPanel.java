@@ -6,7 +6,7 @@ import com.lgc.ServiceFactorys;
 import com.lgc.StartUpClientModel;
 import com.luckybag.entity.ILuckyBagService8008Service;
 import com.luckybag.entity.MsgInfoDto;
-import com.luckybag.fileserver.FileTest;
+import com.luckybag.fileserver.FileServerUtils;
 import com.luckybag.multiclient.websocket.MyWebSocketClient;
 import org.apache.log4j.Logger;
 
@@ -14,8 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +38,7 @@ public class ControlPanel {
     ILuckyBagService8008Service iLuckyBagService8008Service;
     StringBuilder sb = new StringBuilder();
     StringBuilder roster = new StringBuilder();
-    private static Logger logger = Logger.getLogger(FileTest.class);
+    private static Logger logger = Logger.getLogger(FileServerUtils.class);
 
     public JTextArea getTextArea() {
         return textArea;
@@ -60,7 +58,7 @@ public class ControlPanel {
         list.add("http://218.78.51.29:18013/dic/AppAddrService");
 //        list.add("http://117.71.53.199:40009/AppAddrService");
         customObject.InitModelManager(list);
-        if(myClient.getToken().isEmpty()){
+        if (myClient.getToken().isEmpty()) {
             System.out.println("Login failed");
             try {
                 throw new Exception("Login failed, please check out input phone.");
@@ -68,7 +66,7 @@ public class ControlPanel {
                 e.printStackTrace();
                 return;
             }
-        }else{
+        } else {
             System.out.println("Login success, token is: " + myClient.getToken());
         }
 
@@ -77,20 +75,22 @@ public class ControlPanel {
 
     private void prepareGUI(String name) {
         mainFrame = new JFrame("Lucky Bag Chat");
-        mainFrame.setSize(400, 500);
+
+        mainFrame.setSize(650, 500);
+
         mainFrame.setLayout(new BorderLayout());
         headerLabel = new JLabel(name, JLabel.CENTER);
         textArea = new JTextArea();
         textArea.setLineWrap(true);
 
-        textArea.setSize(250, 100);
-        msgPane =new JScrollPane(textArea);
+        textArea.setSize(350, 100);
+        msgPane = new JScrollPane(textArea);
         msgPane.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         rosterArea = new JTextArea();
         rosterArea.setLineWrap(true);
-        rosterArea.setSize(120,100);
+        rosterArea.setSize(220, 100);
         rosterPane = new JScrollPane(rosterArea);
 //        rosterPane.setVerticalScrollBarPolicy(
 //                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -100,8 +100,9 @@ public class ControlPanel {
         controlPanel.setLayout(new FlowLayout());
         mainFrame.add(headerLabel, BorderLayout.NORTH);
         mainFrame.add(msgPane, BorderLayout.CENTER);
-        mainFrame.add(rosterPane,BorderLayout.WEST);
+        mainFrame.add(rosterPane, BorderLayout.WEST);
         mainFrame.add(controlPanel, BorderLayout.SOUTH);
+        mainFrame.setLocation(100, 100);
         mainFrame.setVisible(true);
     }
 
@@ -141,7 +142,7 @@ public class ControlPanel {
             rosterArea.setText(roster.toString());
 
 
-            roster.delete(0,roster.length());
+            roster.delete(0, roster.length());
 
 
         }
@@ -151,15 +152,15 @@ public class ControlPanel {
 
         public void actionPerformed(ActionEvent e) {
 
-            if(textField.getText().trim().isEmpty()){
+            if (textField.getText().trim().isEmpty()) {
                 textField.setText("");
                 return;
             }
             sb.append(textField.getText() + "\n");
             textArea.setText(sb.toString());
 //            sendMSG(textField.getText());
-            for(int i = 0; i < 50; i++){
-                sendMSG(textField.getText() +" " + i + ": "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()));
+            for (int i = 0; i < 50; i++) {
+                sendMSG(textField.getText() + " " + i + ": " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()));
             }
             textField.setText("");
 
@@ -171,7 +172,7 @@ public class ControlPanel {
     private class ClearListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            sb.delete(0,sb.length());
+            sb.delete(0, sb.length());
             textArea.setText(sb.toString());
         }
     }
@@ -180,18 +181,18 @@ public class ControlPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(textField.getText().trim().isEmpty()){
+            if (textField.getText().trim().isEmpty()) {
                 textField.setText("");
                 return;
             }
             String content = e.getActionCommand();
-            textArea.setText(textArea.getText() + content + "\n");
-            sendMSG(textField.getText());
+            String s = sendMSG(textField.getText());
+            textArea.setText(textArea.getText() + "Me: " + content + ", send result: " + s + "\n");
             textField.setText("");
         }
     }
 
-    private void sendMSG(String msg){
+    private String sendMSG(String msg) {
         customObject = new StartUpClientModel(myClient.getToken());
         try {
 //            iLuckyBagService8008Service = customObject.GetService("ILuckyBagService8008Service", ILuckyBagService8008Service.class);
@@ -219,11 +220,12 @@ public class ControlPanel {
 
         String s = iLuckyBagService8008Service.SaveMsgInfo(ilist);
         System.out.println(msgInfoDto.USERNAME + " send msg: " + msg + "; result: " + s);
+        logger.info(msgInfoDto.USERNAME + " send msg: " + msg + "; result: " + s);
+        return s;
     }
 
 
-
-    private void getUsers(){
+    private void getUsers() {
         customObject = new StartUpClientModel(myClient.getToken());
         try {
 //            iLuckyBagService8008Service = customObject.GetService("ILuckyBagService8008Service", ILuckyBagService8008Service.class);
@@ -234,12 +236,14 @@ public class ControlPanel {
 
         List<LoginResponseDto> loginResponseDtos = customObject.GetLoginedDesks("8008");
         roster.append("Online user: ").append(loginResponseDtos.size()).append("\n");
+        roster.append("Time: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()));
         logger.info("Online user:" + loginResponseDtos.size());
-        for (LoginResponseDto user: loginResponseDtos) {
-            roster.append(user.COUSTOMID).append(" \n");
+        for (LoginResponseDto user : loginResponseDtos) {
+//            roster.append(user.COUSTOMID).append(" \n");
             try {
-                logger.info(user.COUSTOMID + ", " + new String(user.COUSTOMNAME.getBytes("GBK"),"UTF-8") + ", login time: " + user.LOGINTIME);
-            } catch (UnsupportedEncodingException e) {
+                logger.info(user.COUSTOMID + ", " + user.COUSTOMNAME + ", login time: " + user.LOGINTIME);
+//                logger.info(user.COUSTOMID + ", " + new String(user.COUSTOMNAME.getBytes("GBK"),"UTF-8") + ", login time: " + user.LOGINTIME);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

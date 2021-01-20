@@ -2,8 +2,7 @@ package com.lgc;
 
 import java.util.List;
 
-public interface IAppAddrService
-{
+public interface IAppAddrService {
 
     boolean ModifyPassword(String oldPassword, String newPassword);
 

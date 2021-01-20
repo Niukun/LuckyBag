@@ -21,10 +21,10 @@ public class BatFileUtils {
     private static void clearFiles() {
         File file = new File(parentPath);
         File[] files = file.listFiles();
-        for (File f: files) {
-            if(f.isDirectory()){
+        for (File f : files) {
+            if (f.isDirectory()) {
                 File[] fs = f.listFiles();
-                for (File ff: fs ) {
+                for (File ff : fs) {
                     ff.delete();
                 }
             }
@@ -58,7 +58,7 @@ public class BatFileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(bufw != null){
+            if (bufw != null) {
                 try {
                     bufw.close();
                 } catch (IOException e) {
@@ -93,12 +93,12 @@ public class BatFileUtils {
         }
     }
 
-    private static void generateBatFile(String path, String phone, int index,String runner) {
+    private static void generateBatFile(String path, String phone, int index, String runner) {
         try {
 //            FileWriter fileWriter = new FileWriter(phone + index);
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + "\\" + phone + ".bat"));
             bufferedWriter.write("@echo off \n");
-            bufferedWriter.write("java -jar LuckyBag-1.0-SNAPSHOT.jar " + phone + " " + runner.substring(0,runner.lastIndexOf(".")) + "user-" + index);
+            bufferedWriter.write("java -jar LuckyBag-1.0-SNAPSHOT.jar " + phone + " " + runner.substring(0, runner.lastIndexOf(".")) + "user-" + index);
 
             bufferedWriter.close();
 

@@ -2,8 +2,7 @@ package com.lgc;
 
 import java.util.Date;
 
-public class LoginResponseDto extends  DtoObject
-{
+public class LoginResponseDto extends DtoObject {
     public String ID;
     public String USERID;
     public String COUSTOMID;

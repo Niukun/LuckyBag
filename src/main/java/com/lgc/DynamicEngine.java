@@ -11,17 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DynamicEngine {
-	private static DynamicEngine ourInstance = new DynamicEngine();
-	 
+    private static DynamicEngine ourInstance = new DynamicEngine();
+
     public static DynamicEngine getInstance() {
         return ourInstance;
     }
+
     private URLClassLoader parentClassLoader;
     private String classpath;
+
     private DynamicEngine() {
         this.parentClassLoader = (URLClassLoader) this.getClass().getClassLoader();
         this.buildClassPath();
     }
+
     private void buildClassPath() {
         this.classpath = null;
         StringBuilder sb = new StringBuilder();
@@ -37,19 +40,19 @@ public class DynamicEngine {
     //     JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
     //     DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
     //     ClassFileManager fileManager = new ClassFileManager(compiler.getStandardFileManager(diagnostics, null, null));
- 
+
     //     List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
     //     jfiles.add(new CharSequenceJavaFileObject(fullClassName, javaCode));
- 
+
     //     List<String> options = new ArrayList<String>();
     //     options.add("-encoding");
     //     options.add("UTF-8");
     //     options.add("-classpath");
     //     options.add(this.classpath);
- 
+
     //     JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, options, null, jfiles);
     //     boolean success = task.call();
- 
+
     //     if (success) {
     //         JavaClassObject jco = fileManager.getJavaClassObject();
     //         DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(this.parentClassLoader);
@@ -71,26 +74,26 @@ public class DynamicEngine {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
         ClassFileManager fileManager = new ClassFileManager(compiler.getStandardFileManager(diagnostics, null, null));
- 
+
         List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
         jfiles.add(new CharSequenceJavaFileObject(fullClassName, javaCode));
- 
+
         List<String> options = new ArrayList<String>();
         options.add("-encoding");
         options.add("UTF-8");
         options.add("-classpath");
-         options.add(this.classpath);
- 
+        options.add(this.classpath);
+
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, options, null, jfiles);
         boolean success = task.call();
- 
+
         if (success) {
             JavaClassObject jco = fileManager.getJavaClassObject();
             DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(this.parentClassLoader);
-            Class<?> clazz = dynamicClassLoader.loadClass(fullClassName,jco);
+            Class<?> clazz = dynamicClassLoader.loadClass(fullClassName, jco);
             instance = clazz;
             dynamicClassLoader.close();
-           } else {
+        } else {
             String error = "";
             for (Diagnostic diagnostic : diagnostics.getDiagnostics()) {
                 error = error + compilePrint(diagnostic);
@@ -125,7 +128,7 @@ public class DynamicEngine {
             JavaClassObject jco = fileManager.getJavaClassObject();
             DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(this.parentClassLoader);
 
-            Class<?> clazz = dynamicClassLoader.loadClass(fullClassName,jco);
+            Class<?> clazz = dynamicClassLoader.loadClass(fullClassName, jco);
             instance = clazz;
             dynamicClassLoader.close();
         } else {
@@ -148,9 +151,9 @@ public class DynamicEngine {
 //        System.out.println(System.getProperty("user.dir"));
         //动态编译
         JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
-        int status = javac.run(null, null, null, "-classpath" , this.classpath ,"-d", "d:\\hrssc\\target",
+        int status = javac.run(null, null, null, "-classpath", this.classpath, "-d", "d:\\hrssc\\target",
                 "d:/hrssc/src/" + fullClassName + ".java");
-        if(status!=0){
+        if (status != 0) {
             System.out.println("没有编译成功！");
         }
 
@@ -159,7 +162,6 @@ public class DynamicEngine {
         return clz;
 
     }
-
 
 
     private String compilePrint(Diagnostic diagnostic) {

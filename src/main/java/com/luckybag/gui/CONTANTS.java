@@ -5,11 +5,12 @@ import java.util.Map;
 
 public class CONTANTS {
 
-    static Map<String,String> userMap = new HashMap<>();
-    static{
-        userMap.put("纪文静","15000000001");
-        userMap.put("卢鲁","15000000002");
-        userMap.put("顾帅","15000000003");
+    static Map<String, String> userMap = new HashMap<>();
+
+    static {
+        userMap.put("纪文静", "15000000001");
+        userMap.put("卢鲁", "15000000002");
+        userMap.put("顾帅", "15000000003");
 //        userMap.put("user4","15324589697");
 //        userMap.put("user5","15812001640");
 //        userMap.put("user6","18956056866");
@@ -20,6 +21,7 @@ public class CONTANTS {
 
 
     }
+
     public static String WS_SERVER_DEV = "ws://61.171.37.10:8089";
 //public static String WS_SERVER_DEV = "ws://117.71.53.199:40007";
 

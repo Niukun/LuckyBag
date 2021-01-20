@@ -53,8 +53,8 @@ public class MyTest {
 
         String phone = args[0];
         String name = args[1];
-//        String phone = "13866725136";
-//        String name = "程文";
+//        String phone = "15021597239";
+//        String name = "牛坤";
 
 
         if (myClient.isOpen()) {

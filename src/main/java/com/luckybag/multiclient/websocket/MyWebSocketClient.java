@@ -96,24 +96,25 @@ public class MyWebSocketClient extends WebSocketClient {
                 String rowState = content.getString("RowState");
                 if (rowState.equalsIgnoreCase("1")) {
                     logger.info(coustomname + "login");
-                }if (rowState.equalsIgnoreCase("3")) {
+                }
+                if (rowState.equalsIgnoreCase("3")) {
                     logger.info(coustomname + "logout");
                 }
             } else {
                 String userName = content.getString("USERNAME");
 
-                if(content.getString("LUCKYBAGID")!=null){//接收的是红包消息
+                if (content.getString("LUCKYBAGID") != null) {//接收的是红包消息
                     String bagAmount = content.getString("LUCKYBAGTOTALAMOUNT");
                     String luckybagnumber = content.getString("LUCKYBAGNUMBER");
-                    currentClient.getTextArea().setText(currentClient.getTextArea().getText() + userName + ": send luckybag with " + luckybagnumber+"bags, total amount is : " + bagAmount + "\n");
-                    logger.info("I'm " + this.user + ", " + userName + ": luckybag with " + luckybagnumber+" bags, total amount is : " + bagAmount + ", log time: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()));
+                    currentClient.getTextArea().setText(currentClient.getTextArea().getText() + userName + ": send luckybag with " + luckybagnumber + "bags, total amount is : " + bagAmount + "\n");
+                    logger.info("I'm " + this.user + ", " + userName + ": luckybag with " + luckybagnumber + " bags, total amount is : " + bagAmount + ", log time: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()));
 
-                }else{ //接收的是消息
+                } else { //接收的是消息
 
                     String msgcontent = content.getString("MSGCONTENT");
                     String msgcreatetime = content.getString("MSGCREATETIME");
 
-                    currentClient.getTextArea().setText(currentClient.getTextArea().getText() + userName + ": " + msgcontent  + "\n");
+                    currentClient.getTextArea().setText(currentClient.getTextArea().getText() + userName + ": " + msgcontent + "\n");
                     currentClient.getTextField().setText("");
                     logger.info("I'm " + this.user + ", " + userName + " send msg: " + msgcontent + ", msgtime: " + msgcreatetime + ", log time: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()));
                 }
