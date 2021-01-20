@@ -4,11 +4,9 @@ package com.luckybag.multiclient.websocket;
 import com.luckybag.gui.CONTANTS;
 import com.luckybag.gui.ControlPanel;
 import org.java_websocket.client.WebSocketClient;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
