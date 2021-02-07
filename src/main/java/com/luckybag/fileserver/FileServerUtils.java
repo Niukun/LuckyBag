@@ -30,7 +30,7 @@ public class FileServerUtils {
      */
     public static void main(String[] args) throws ApiException, IOException {
 
-        String filePath = "src/main/resources/images0120";
+        String filePath = "D:\\data\\Intellij\\LuckyBag\\src\\main\\resources\\images020723";
         File file = new File(filePath);
         File[] files = file.listFiles();
         for (File f : files) {
@@ -39,7 +39,7 @@ public class FileServerUtils {
     }
 
     private static void uploadFile(String path) throws ApiException, IOException {
-//        String filePath = "src/main/resources/images/1.jpg";
+//         String filePath = "src/main/resources/images/1.jpg";
         File file = new File(path);
         FileInputStream fileInputStream = new FileInputStream(file);
         FSUploadFileParam fsUploadFileParam = new FSUploadFileParam();

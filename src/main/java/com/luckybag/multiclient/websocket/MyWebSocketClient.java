@@ -87,7 +87,7 @@ public class MyWebSocketClient extends WebSocketClient {
 
         if (jsonObject.getString("Token") != null) {
             this.setToken(jsonObject.getString("Token"));
-            this.send("subscribe:99999@{USER}");
+            this.send("subscribe:99999@18@1813@{USER}");
         } else if (jsonObject.getString("CONTENT") != null) {
             JSONObject content = JSONObject.parseObject(jsonObject.getString("CONTENT"));
             String coustomname = content.getString("COUSTOMNAME");

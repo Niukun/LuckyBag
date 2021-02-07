@@ -49,10 +49,10 @@ public class MyTest {
         myClient.setConnectionLostTimeout(30000);
 
 
-        String phone = args[0];
-        String name = args[1];
-//        String phone = "15021597239";
-//        String name = "牛坤";
+//        String phone = args[0];
+//        String name = args[1];
+        String phone = "15021597239";
+        String name = "牛坤";
 
 
         if (myClient.isOpen()) {
