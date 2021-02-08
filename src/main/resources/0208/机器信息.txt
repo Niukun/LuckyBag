@@ -1,0 +1,46 @@
+
+【线上环境】
+
+【数据库 - 天翼云】数据库已经创建成功。DBName：zkml_lucky_bag_0208，User：zkluckybaguser，Password: bh3H!RAw3E43ID，
+公网IP：101.89.219.3，Port：33891 ，内网IP：172.16.0.231，Port：33891。请您及时做连接测试。
+
+
+
+
+
+【虚拟机 - 天翼云】
+	【websocket】61.171.37.10 12核24G	
+	【applicationserver/jobserver/nginx】218.78.51.29  8核16g
+	用户名密码都是：administrator / Izkml@123
+
+
+
+
+
+【接口文档】
+	https://www.showdoc.com.cn/hrssc
+【开发模式】登录查看
+【访客模式】密码:hrssc123
+
+
+
+
+
+
+【PaaS项目维护】
+	http://117.71.53.199:40006/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

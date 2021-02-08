@@ -30,6 +30,7 @@ public class FileServerUtils {
      */
     public static void main(String[] args) throws ApiException, IOException {
 
+        //把目录下所有文件上传，结果会保存在项目目录/logs/hrssc-log.log文件中
         String filePath = "D:\\data\\Intellij\\LuckyBag\\src\\main\\resources\\images020723";
         File file = new File(filePath);
         File[] files = file.listFiles();
